@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
 {
-    use HasFactory;
+	use HasFactory;
+
+	protected $fillable = [
+		'user_id',
+		'description',
+		'amount'
+	];
 }

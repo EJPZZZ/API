@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class LoginController extends Controller
+class AuthenticationController extends Controller
 {
 	public function login(Request $request): string
 	{
@@ -31,8 +29,9 @@ class LoginController extends Controller
 		return $user->createToken($request->device_name)->plainTextToken;
 	}
 
-	public function logout(): string
+	public function logout(Request $request): string
 	{
-		return json_encode([Auth::user()]);
+		$request->user()->currentAccessToken()->delete();
+		return json_encode([]);
 	}
 }
