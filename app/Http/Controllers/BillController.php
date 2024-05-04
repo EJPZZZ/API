@@ -6,7 +6,6 @@ use App\Http\Resources\BillCollection;
 use App\Http\Resources\BillResource;
 use App\Models\Bill;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class BillController extends Controller
 {
@@ -15,12 +14,7 @@ class BillController extends Controller
 		return BillCollection::make(Bill::all());
 	}
 
-	public function show(Bill $bill): BillResource
-	{
-		return BillResource::make($bill);
-	}
-
-	public function create(Request $request)
+	public function store(Request $request): BillResource
 	{
 		// return json_encode(auth('sanctum')->user());
 		$bill = Bill::create([
@@ -30,5 +24,23 @@ class BillController extends Controller
 		]);
 
 		return BillResource::make($bill);
+	}
+
+	public function show(Bill $bill): BillResource
+	{
+		return BillResource::make($bill);
+	}
+
+
+	public function update(Bill $bill, Request $request): BillResource
+	{
+		$bill->update($request->input('data.attributes'));
+		return BillResource::make($bill);
+	}
+
+	public function destroy(Bill $bill): string
+	{
+		$bill->delete();
+		return response('', 204);
 	}
 }
