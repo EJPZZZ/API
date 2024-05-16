@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Resources\UserCollection;
@@ -13,6 +14,11 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum')
 	->name('api.v1.users.show');
 
+Route::controller(BalanceController::class)
+	->middleware('auth:sanctum')
+	->group(function () {
+		Route::get('/total_balance', 'total')->name('api.v1.balance.total');
+	});
 
 Route::controller(BillController::class)
 	->middleware('auth:sanctum')
